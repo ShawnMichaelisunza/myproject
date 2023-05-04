@@ -1,0 +1,64 @@
+.add-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.add-form form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-width{
+    display: flex;
+    width: 70%;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.perent-1{
+    width: 30%;
+    height: 50px;
+    margin: 2px 5px;
+}
+.perent-1 input{
+    width: 415px;
+}
+.perent{
+    width: 30%;
+    height: 50px;
+    margin: 2px 5px;
+}
+
+.add-form label{
+    font-size: 18px;
+    margin: 0 8px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: red;
+}
+
+
+@media(max-width:800px){
+    .form-width{
+        width: 90%;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .perent{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .perent input{
+        width: 80%;
+        margin: 0 0 10px 0;
+    }
+    .perent-1 input{
+        width: 260%;
+        margin: 0 0 10px 0;
+    }
+    .perent select{
+        max-width: 80%;
+        max-height: 100px;
+    }
+}
