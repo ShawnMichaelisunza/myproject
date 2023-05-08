@@ -195,6 +195,7 @@ if(isset($_POST['form-submit'])){
             $error['position-1'] = '* Letters only';
         }
 
+        header('Location: index.php');
         
     }
 
@@ -234,16 +235,14 @@ if(isset($_POST['form-submit'])){
         //save to db and check
 
         if(mysqli_query($conn, $sql)){
+            
             // success
         }else{
             //error
             echo 'query error :' . mysqli_error($conn);
         }
 
-        header('Location: index.php');
-
     }
-    
 }
 
 ?>

@@ -1,3 +1,5 @@
+
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,8 +28,8 @@
           <a class="nav-link active" href="add.php">Add Contract</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="d-flex" role="search" action="search.php" method="GET">
+        <input class="form-control me-2"name="search" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-danger" type="submit">Search</button>
       </form>
       <ul class="navbar-nav ms-5 mb-lg-0">
