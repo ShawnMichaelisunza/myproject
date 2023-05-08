@@ -3,10 +3,44 @@
 
 include('db_connect/connect.php');
 
+// get page number
+if(isset($_GET['page_no']) && $_GET['page_no'] !==""){
+    $page_no = $_GET['page_no'];
+}else{
+    $page_no = 1;
+}
+
+// total rows or records to display
+
+$total_records_per_page = 16;
+
+// get the page offset for the LIMIT query
+
+$offset = ($page_no -1) * $total_records_per_page;
+
+// get previous page
+$previous_page = $page_no -1;
+// get next page 
+$next_page = $page_no + 1;
+
+
+// get the total count of records
+$result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM myproject.add_project")
+ or die(mysqli_error($conn));
+
+//  total records
+$records = mysqli_fetch_array($result_count);
+// store total_records to a variable
+
+$total_records = $records['total_records'];
+
+// get total pages
+$total_no_of_pages = ceil($total_records / $total_records_per_page);
+
 
 // write query from database
 
-$sql = "SELECT * FROM add_project ORDER BY current_t";
+$sql = "SELECT * FROM add_project ORDER BY current_t LIMIT $offset , $total_records_per_page" ;
 
 // make query & get result
 
@@ -62,12 +96,34 @@ mysqli_close($conn);
                             <td><?php echo htmlspecialchars($mrf['gender'])?></td>
                             <td><button type="button"  class="btn btn-success">
                             <a name="edit" href="update.php?id=<?php echo htmlspecialchars($mrf['id'])?>">Update</a></button></td>
-                            <td><button type="button"  class="btn btn-success">
+                            <td><button type="button"  class="btn btn-primary">
                             <a name="edit" href="update.php?id=<?php echo htmlspecialchars($mrf['id'])?>">View</a></button></td>
                             </tr>
                             <?php }?>
                     </table>
                 </div>
+                    <nav class="page_bar">
+                        <ul>
+                            <li><a class=" <?=($page_no <= 1)? 'disabled' : '';?>"
+                            <?= ($page_no > 1)? 'href=?page_no=' . $previous_page : '';?>>Previous</a></li>
+
+                            
+                            <?php for($counter =1; $counter <= $total_no_of_pages; $counter++){?>
+                                <?php if($page_no != $counter){?>
+                            <li><a href="?page_no=<?= $counter?>"><?= $counter?></a></li>
+                                <?php } else {?>
+                                <li><a><?= $counter?></a></li>
+                                <?php }?>
+                            <?php }?>
+
+
+                            <li><a class=" <?=($page_no >= $total_no_of_pages)? 'disabled' : '';?>"
+                            <?= ($page_no < $total_no_of_pages)? 'href=?page_no=' . $next_page : '';?>>Next</a></li>
+                        </ul>
+                        <div class="display-page">
+                        <strong>Page <?= $page_no;?> of <?= $total_no_of_pages;?></strong>
+                        </div>
+                    </nav>
             </div>
 
 

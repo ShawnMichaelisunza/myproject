@@ -36,6 +36,46 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: red;
 }
+.MRF-table{
+    display: flex;
+    justify-content: center;
+}
+.MRF-table table{
+    font-size: 13px;
+    text-align: center;
+    width: 90%;
+}
+.MRF-table button{
+    width: 77%;
+}
+.MRF-table button a{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-decoration: none;
+    font-size: 12px;
+    color: white;
+}
+
+
+/* Pages */
+
+.page_bar{
+    margin: 30px 0;
+}
+.page_bar ul{
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.page_bar ul li{
+    list-style-type: none;
+    margin: 0 5px;
+}
+.page_bar li a{
+    text-decoration: none;
+    color: red;
+    cursor: pointer;
+}
 
 
 @media(max-width:800px){

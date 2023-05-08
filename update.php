@@ -254,7 +254,7 @@
     </div>
 <br>
     <div class="btn-form">    
-      <button type="submit" name="update" class="btn btn-outline-success">Submit</button>
+      <button type="submit" name="update" class="btn btn-outline-success">Update</button>
       <button type="reset" name="cancel" class="btn btn-outline-danger">Cancel</button>
     </div>
   </div>
@@ -263,3 +263,6 @@
 
 
 </div>
+
+<?php include('navbar/footer.php')?>
+</html>
