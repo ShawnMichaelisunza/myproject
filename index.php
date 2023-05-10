@@ -97,7 +97,7 @@ mysqli_close($conn);
                             <td><button type="button"  class="btn btn-success">
                             <a name="edit" href="update.php?id=<?php echo htmlspecialchars($mrf['id'])?>">Update</a></button></td>
                             <td><button type="button"  class="btn btn-primary">
-                            <a name="edit" href="update.php?id=<?php echo htmlspecialchars($mrf['id'])?>">View</a></button></td>
+                            <a name="edit" href="details.php?id=<?php echo htmlspecialchars($mrf['id'])?>">View</a></button></td>
                             </tr>
                             <?php }?>
                     </table>

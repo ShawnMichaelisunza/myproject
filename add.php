@@ -10,6 +10,8 @@ $lname = $fname = $mname = $bplace =  $religion =  $picture = $email = $contact 
 
 if(isset($_POST['form-submit'])){
 
+    
+
     $currentDate = $_POST['date-current'].date('Y-m-d');
     $lname = $_POST['l-name'];
     $fname = $_POST['f-name'];
@@ -17,7 +19,6 @@ if(isset($_POST['form-submit'])){
 
     $bplace = $_POST['b-place'];
     $religion = $_POST['religion'];
-    $picture = $_POST['picture'];
 
     $email = $_POST['email'];
     $contact = $_POST['contact'];
@@ -85,12 +86,50 @@ if(isset($_POST['form-submit'])){
         }
     }
 
-    // if(empty($_POST['picture'])){
-    //     $error['picture'] = '* Picture name is Required';
+    if(empty($_POST['image'])){
+        
 
-    // }else{
-    //     // success
-    // }
+        }else{
+                        //images
+                        echo "<pre>";
+                        print_r($_FILES['image']);
+                        echo "</pre>";
+            
+                        $img_name = $_FILES['image']['name'];
+                        $img_size = $_FILES['image']['size'];
+                        $tmp_name = $_FILES['image']['tmp_name'];
+                        $error = $_FILES['image']['error'];
+            
+                        if ($error === 0) {
+                            if ($img_size > 5000000) {
+                                echo $em = "Sorry, your file is too large.";
+                                
+                            } else {
+                                $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+                                $img_ex_lc = strtolower($img_ex);
+            
+                                $allowed_exs = array("jpg", "jpeg", "png"); 
+            
+                                if (in_array($img_ex_lc, $allowed_exs)) {
+                                    $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                    $img_upload_path = 'img/'.$new_img_name;
+                                    move_uploaded_file($tmp_name, $img_upload_path);
+                                    
+                                    // Insert into Database
+                                    $sql = "INSERT INTO add_project(pictures) 
+                                            VALUES('$new_img_name')"; //
+                                    mysqli_query($conn, $sql);
+            
+                                }   else {
+                                    $em = "You can't upload files of this type";
+                            }
+            
+                        } 
+                        
+                        } else {
+                        $em = "unknown error occurred!";
+                        }
+        }
 
     if(empty($_POST['email'])){
         $error['email'] = '* Enter an email';
@@ -194,12 +233,10 @@ if(isset($_POST['form-submit'])){
         if(!preg_match('/^[a-zA-Z\s]+$/', $Post1)){
             $error['position-1'] = '* Letters only';
         }
-
-        header('Location: index.php');
         
     }
 
-    if(!array_filter($error)){                          // checking error
+    if(array_filter($error)){                          // checking error
         // echo 'errors in the form';
     }else{
 
@@ -208,7 +245,6 @@ if(isset($_POST['form-submit'])){
         $mname = mysqli_real_escape_string($conn, $_POST['m-name']);
         $bplace = mysqli_real_escape_string($conn, $_POST['b-place']);
         $religion = mysqli_real_escape_string($conn, $_POST['religion']);
-        $picture = mysqli_real_escape_string($conn, $_POST['picture']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $contact = mysqli_real_escape_string($conn, $_POST['contact']);
         $gender = mysqli_real_escape_string($conn, $_POST['gender']);
@@ -225,17 +261,19 @@ if(isset($_POST['form-submit'])){
         $Compname1 = mysqli_real_escape_string($conn, $_POST['comp-name-1']);
         $Post1 = mysqli_real_escape_string($conn, $_POST['position-1']);
 
+
         //create sql
-        $sql ="INSERT INTO add_project(l_name, f_name, m_name, b_place, religion, pictures , email, contact, gender, ad_dress, bday, elem, e_grad, 
-        high_s, h_grad, college, c_grad, comp_name, position, comp_name_1, position_1) 
-        VALUES('$lname','$fname', '$mname', '$bplace','$religion', '$picture', '$email','$contact', '$gender', '$address','$bday', '$elem',
-        '$egrad','$HighS', '$hgrad','$College','$cgrad', '$Compname', '$Post','$Compname1', '$Post1')";
+        $sql ="INSERT INTO add_project(l_name, f_name, m_name, b_place, religion, email, contact, gender, ad_dress, bday, elem, e_grad, 
+        high_s, h_grad, college, c_grad, comp_name, position,  comp_name_1, position_1) 
+        VALUES('$lname','$fname', '$mname', '$bplace','$religion', '$email','$contact', '$gender', '$address','$bday', '$elem',
+        '$egrad','$HighS', '$hgrad','$College','$cgrad', '$Compname', '$Post','$Compname1', '$Post1' )";
 
 
         //save to db and check
 
         if(mysqli_query($conn, $sql)){
             
+            header('Location: index.php');
             // success
         }else{
             //error
@@ -256,7 +294,7 @@ if(isset($_POST['form-submit'])){
     <h1 class="text-danger" style="text-align: start;">Add Contract</h1>
 <br>
 
-  <form action="add.php" method="POST">
+  <form action="add.php" method="POST" autocomplete="off" enctype="multipart/form-data">
   <h3 style="text-align: left;">Personal Data</h3>
   <div class="form-width">
       <div class="perent">
@@ -291,8 +329,8 @@ if(isset($_POST['form-submit'])){
       </div>
       <div class="perent">
       <label for="">Picture ( 2x2 )</label>
-      <input type="hidden" name="filename">
-      <input type="file" name="picture" id="" value="<?php echo htmlspecialchars($picutre)?>">
+      <input type="hidden" name="file-name">
+      <input type="file" name="image[]" id="" accept=".jpg, .jpeg, .png" value="">
       <div style="font-size: 13px; color: blue;"><?php echo htmlspecialchars($error['picture'])?></div>
       </div>
   </div>

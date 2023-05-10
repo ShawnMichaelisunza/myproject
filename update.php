@@ -38,6 +38,7 @@
         =  $elem = $HighS =  $College = $egrad = $hgrad = $cgrad = $Compname = $Post =  $Compname1 = $Post1 = '';
         
         if(isset($_POST['update'])){
+
             if(isset($_GET['id_new'])){
                 $idnew = $_GET['id_new'];
             }
